@@ -50,6 +50,6 @@ Material:
     - _BUILTIN_QueueOffset: 0
     - _BlendScale: 0
     - _BlendValue: 0.2
-    - _TimeScale: 0.01
+    - _TimeScale: 0.05
     m_Colors: []
   m_BuildTextureStacks: []
