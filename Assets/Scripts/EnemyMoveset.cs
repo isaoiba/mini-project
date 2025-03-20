@@ -7,9 +7,26 @@ public class EnemyMoveset : MonoBehaviour
 {
     public NavMeshAgent agent;
     public Transform target;
+    public Transform location;
+
+    public Animator animator;
+    
+    void Start()
+    {
+        
+    }
 
     void Update()
     {
-        agent.SetDestination(target.position);
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("YourAnimationName"))
+        {
+            agent.SetDestination(target.position);
+        }
+        else
+        {
+            agent.isStopped = true;
+        }
+
+
     }
 }
