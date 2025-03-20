@@ -11,6 +11,7 @@ public class EnemyMoveset : MonoBehaviour
 
     public Animator animator;
     
+    bool isShot
     void Start()
     {
         
@@ -18,15 +19,8 @@ public class EnemyMoveset : MonoBehaviour
 
     void Update()
     {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("YourAnimationName"))
-        {
-            agent.SetDestination(target.position);
-        }
-        else
-        {
-            agent.isStopped = true;
-        }
+        agent.SetDestination(target.position);
 
-
+        //isShot = Physics.CheckCapsule(groundCheck.position, groundDistance, groundMask);
     }
 }

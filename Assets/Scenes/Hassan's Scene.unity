@@ -1491,6 +1491,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3779401501084563570, guid: b5d4e2c2ef38e384cb9d19a726011a82, type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3779401501084563570, guid: b5d4e2c2ef38e384cb9d19a726011a82, type: 3}
+      propertyPath: bullet
+      value: 
+      objectReference: {fileID: 5388192589865965453, guid: 0c642ccf5c7861244900ac959395ba81, type: 3}
+    - target: {fileID: 3779401501084563570, guid: b5d4e2c2ef38e384cb9d19a726011a82, type: 3}
+      propertyPath: projectile
+      value: 
+      objectReference: {fileID: 5859843344188572003, guid: 0c642ccf5c7861244900ac959395ba81, type: 3}
     - target: {fileID: 6577723035916196328, guid: b5d4e2c2ef38e384cb9d19a726011a82, type: 3}
       propertyPath: m_LocalPosition.x
       value: 20
@@ -1600,6 +1612,10 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 1302355890}
+    - target: {fileID: 8827543843525320906, guid: b1e8ece06ba985545a0d8c9af078a68b, type: 3}
+      propertyPath: location
+      value: 
+      objectReference: {fileID: 1260522020}
     m_RemovedComponents:
     - {fileID: 4973569567023656373, guid: b1e8ece06ba985545a0d8c9af078a68b, type: 3}
     - {fileID: 1362494229176960577, guid: b1e8ece06ba985545a0d8c9af078a68b, type: 3}
