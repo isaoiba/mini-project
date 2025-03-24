@@ -11,7 +11,7 @@ public class EnemyMoveset : MonoBehaviour
 
     public Animator animator;
     
-    bool isShot
+    bool isShot;
     void Start()
     {
         
