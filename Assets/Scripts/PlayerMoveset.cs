@@ -17,11 +17,7 @@ public class PlayerMoveset : MonoBehaviour
     
     Vector3 velocity;
     bool isGrounded;
-    
-    void Start()
-    {
-        
-    }
+
     
     void Update()
     {
@@ -47,5 +43,13 @@ public class PlayerMoveset : MonoBehaviour
         velocity.y += gravity * Time.deltaTime;
 
         controller.Move(velocity * Time.deltaTime);
+    }
+    
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.CompareTag("Enemy"))
+        {
+            Destroy(gameObject);
+        }
     }
 }

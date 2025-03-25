@@ -107,6 +107,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 1500
   playerBody: {fileID: 6577723035916196328}
+  bullet: {fileID: 0}
+  projectile: {fileID: 0}
+  speed: 20
 --- !u!1 &3512508424233250249
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,7 +123,7 @@ GameObject:
   - component: {fileID: 5474148419419208565}
   m_Layer: 7
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
