@@ -4,17 +4,12 @@ using UnityEngine;
 
 public class TimeManager : MonoBehaviour
 {
-    [SerializeField] private Texture2D skyboxNight;
-    [SerializeField] private Texture2D skyboxSunrise;
-    [SerializeField] private Texture2D skyboxDay;
-    [SerializeField] private Texture2D skyboxSunset;
+    [SerializeField] private Cubemap skyboxNight;
+    [SerializeField] private Cubemap skyboxDay;
     
-    [SerializeField] private Gradient gradientNightToSunrise;
-    [SerializeField] private Gradient gradientSunriseToDay;
-    [SerializeField] private Gradient gradientDayToSunset;
-    [SerializeField] private Gradient gradientSunsetToNight;
-
     [SerializeField] private Light globalLight;
+    [SerializeField] private Color nightColor = Color.blue;
+    [SerializeField] private Color dayColor = Color.yellow;
 
     private int minutes;
     public int Minutes
@@ -27,7 +22,7 @@ public class TimeManager : MonoBehaviour
         } 
     }
 
-    private int hours;
+    private int hours = 6; // Start at 6 AM
     public int Hours
     { 
         get { return hours; } 
@@ -46,29 +41,24 @@ public class TimeManager : MonoBehaviour
     }
 
     private float tempSecond;
-
     private Material skyboxMaterial;
 
     private void Awake()
     {
-        Time.timeScale = 4f; // Speed up time progression for testing
-        // Create a new Material for the skybox
-        skyboxMaterial = new Material(Shader.Find("Skybox/Procedural"));
-        RenderSettings.skybox = skyboxMaterial; // Assign the material to RenderSettings.skybox
+        Time.timeScale = 1f;
+        skyboxMaterial = new Material(Shader.Find("Skybox/Cubemap"));
+        RenderSettings.skybox = skyboxMaterial;
     }
 
-    // Start is called before the first frame update
     void Start()
     {
-        // Initial Skybox setup if needed
-        RenderSettings.skybox = skyboxMaterial;
-        globalLight.color = gradientNightToSunrise.Evaluate(0); // Start with night light color
+        SetSkyboxCubemap(skyboxDay);
+        globalLight.color = dayColor;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        tempSecond += Time.deltaTime;
+        tempSecond += Time.deltaTime * 10f;
         if (tempSecond >= 1)
         {
             Minutes += 1;
@@ -78,7 +68,7 @@ public class TimeManager : MonoBehaviour
 
     private void OnMinutesChange(int value)
     {
-        globalLight.transform.Rotate(Vector3.up, (1f / 1440f) * 360f, Space.World); // Rotate the light source each minute
+        globalLight.transform.Rotate(Vector3.up, (1f / 1440f) * 360f, Space.World);
         if (value >= 60)
         {
             Hours++;
@@ -93,50 +83,43 @@ public class TimeManager : MonoBehaviour
 
     private void OnHoursChange(int value)
     {
-        if (value >= 6 && value < 8)
+        if (value == 6)
         {
-            StartCoroutine(LerpSkybox(skyboxNight, skyboxSunrise, 10f));
-            StartCoroutine(LerpLight(gradientNightToSunrise, 10f));
+            StartCoroutine(LerpSkybox(skyboxNight, skyboxDay, 10f));
+            StartCoroutine(LerpLight(nightColor, dayColor, 10f));
         }
-        else if (value >= 8 && value < 18)
+        else if (value == 18)
         {
-            StartCoroutine(LerpSkybox(skyboxSunrise, skyboxDay, 10f));
-            StartCoroutine(LerpLight(gradientSunriseToDay, 10f));
-        }
-        else if (value >= 18 && value < 22)
-        {
-            StartCoroutine(LerpSkybox(skyboxDay, skyboxSunset, 10f));
-            StartCoroutine(LerpLight(gradientDayToSunset, 10f));
-        }
-        else if (value >= 22 || value < 6)
-        {
-            StartCoroutine(LerpSkybox(skyboxSunset, skyboxNight, 10f));
-            StartCoroutine(LerpLight(gradientSunsetToNight, 10f));
+            StartCoroutine(LerpSkybox(skyboxDay, skyboxNight, 10f));
+            StartCoroutine(LerpLight(dayColor, nightColor, 10f));
         }
     }
 
-    private IEnumerator LerpSkybox(Texture2D a, Texture2D b, float time)
+    private void SetSkyboxCubemap(Cubemap cubemap)
     {
-        // Set initial skybox texture
-        skyboxMaterial.SetTexture("_MainTex", a);
+        skyboxMaterial.SetTexture("_Tex", cubemap);
+    }
 
-        // Lerp the blend between skyboxes over time
-        for (float i = 0; i < time; i += Time.deltaTime)
+    private IEnumerator LerpSkybox(Cubemap a, Cubemap b, float time)
+    {
+        float elapsedTime = 0;
+        while (elapsedTime < time)
         {
-            skyboxMaterial.SetFloat("_Blend", i / time);
+            float t = elapsedTime / time;
+            skyboxMaterial.SetTexture("_Tex", t < 0.5f ? a : b);
+            elapsedTime += Time.deltaTime;
             yield return null;
         }
-
-        // Set the final skybox texture
-        skyboxMaterial.SetTexture("_MainTex", b);
+        SetSkyboxCubemap(b);
     }
 
-    private IEnumerator LerpLight(Gradient lightGradient, float time)
+    private IEnumerator LerpLight(Color startColor, Color endColor, float time)
     {
         for (float i = 0; i < time; i += Time.deltaTime)
         {
-            globalLight.color = lightGradient.Evaluate(i / time);  // Interpolate light color based on the gradient
-            RenderSettings.fogColor = globalLight.color;  // Change fog color to match light color
+            float t = i / time;
+            globalLight.color = Color.Lerp(startColor, endColor, t);
+            RenderSettings.fogColor = globalLight.color;
             yield return null;
         }
     }
