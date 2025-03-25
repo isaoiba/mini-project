@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,18 +10,45 @@ public class EnemyMoveset : MonoBehaviour
     public Transform target;
     public Transform location;
 
-    public Animator animator;
-    
-    bool isShot;
+    private bool inChase;
     void Start()
     {
-        
+        inChase = false;
     }
 
     void Update()
     {
-        agent.SetDestination(target.position);
+        if (inChase)
+        {
+            agent.SetDestination(target.position);
+        }
+        else
+        {
+            agent.ResetPath();
+        }
+    }
 
-        //isShot = Physics.CheckCapsule(groundCheck.position, groundDistance, groundMask);
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            inChase = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            inChase = false;
+        }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            // Touched player, do damage
+        }
     }
 }
