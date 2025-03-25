@@ -10,6 +10,8 @@ public class EnemyMoveset : MonoBehaviour
     public Transform target;
     public Transform location;
 
+    public GameObject player;
+
     private bool inChase;
     void Start()
     {
@@ -46,9 +48,13 @@ public class EnemyMoveset : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Projectile"))
         {
-            // Touched player, do damage
+            Destroy(gameObject);
         }
+        
+        
     }
+
+    
 }
