@@ -6,9 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Game Scene.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
+  - enabled: 0
     path: Assets/Scenes/Hassan's Scene.unity
     guid: 60f3b6a445fbd3f4d89556c9e57bb5ff
   - enabled: 1
     path: Assets/Scenes/Lose Screen.unity
     guid: 6ee243f35f30d244caceead3396641dc
+  - enabled: 1
+    path: Assets/Scenes/Win Screen.unity
+    guid: 6fa9e83a344919349a3f3d29ab805b7d
   m_configObjects: {}
