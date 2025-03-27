@@ -18,6 +18,11 @@ public class PlayerMoveset : MonoBehaviour
     Vector3 velocity;
     bool isGrounded;
 
+    private KeyCollection _keyCollection;
+
+    void Start(){
+        _keyCollection = GetComponent<KeyCollection>();
+    }
     
     void Update()
     {
@@ -50,6 +55,12 @@ public class PlayerMoveset : MonoBehaviour
         if (hit.gameObject.CompareTag("Enemy"))
         {
             SceneManager.LoadScene (sceneName:"Lose Screen");
+            
+        }
+
+        if (hit.gameObject.CompareTag("Key"))
+        {
+            _keyCollection.playerHit(hit.gameObject);
         }
     }
 }

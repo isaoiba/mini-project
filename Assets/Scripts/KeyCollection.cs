@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class KeyCollection : MonoBehaviour
 {
     public TMP_Text text;
     public int keysneeded;
@@ -17,15 +17,18 @@ public class NewBehaviourScript : MonoBehaviour
         text = text.GetComponent<TMP_Text>();
     }
 
-    private void OnCollisionEnter(Collision other)
-    {
-        Debug.Log("Collision Enter");
-        if (other.gameObject.CompareTag("Key"))
+    void Update() {
+        if (_keysCollected == keysneeded)
         {
-            Debug.Log(other.gameObject.name);
-            ++_keysCollected;
-            other.gameObject.SetActive(false);
-            text.text = "Objective:\nCollect the keys ("+_keysCollected+"/6)";
+            SceneManager.LoadScene (sceneName:"Win Screen");
+            
         }
+    }
+
+    public void playerHit(GameObject other){
+        Debug.Log(other.gameObject.name);
+        ++_keysCollected;
+        other.gameObject.SetActive(false);
+        text.text = "Objective:\nCollect the keys ("+_keysCollected+"/6)";
     }
 }
